@@ -1,0 +1,21 @@
+# web_scraper.py
+# -----------------------
+# BeautifulSoupを使ってニュースサイトからタイトルを取得するサンプル
+# -----------------------
+
+import requests
+from bs4 import BeautifulSoup
+
+# ニュースサイト（例：NHKニュース）
+url = "https://www3.nhk.or.jp/news/"
+response = requests.get(url)
+
+# HTMLを解析
+soup = BeautifulSoup(response.text, "html.parser")
+
+# タイトル要素を取得（クラス名はサイトによって変わる）
+titles = soup.find_all("h3")
+
+print("=== NHKニュースの最新タイトル ===")
+for i, title in enumerate(titles[:10], 1):  # 上位10件だけ表示
+    print(f"{i}. {title.get_text(strip=True)}")
